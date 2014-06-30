@@ -341,7 +341,14 @@
               self.add($input.val());
               $input.val('');
               event.preventDefault();
-            }
+
+			// When user tries to add tag as a string when freeInput is disabled.
+			} else if (!self.options.freeInput && $.inArray(event.which, self.options.confirmKeys) >= 0) {
+				var value = $input.val();
+				if (value.length) {
+					self.$element.trigger($.Event('stringInputAttempt', { value: value }));
+				}
+			}
         }
 
         // Reset internal input's size
